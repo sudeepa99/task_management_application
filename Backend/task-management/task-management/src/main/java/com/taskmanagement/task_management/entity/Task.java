@@ -1,6 +1,7 @@
 package com.taskmanagement.task_management.entity;
 
 import com.taskmanagement.task_management.enums.TaskPriority;
+import com.taskmanagement.task_management.enums.TaskStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,9 @@ public class Task {
 
     private String title;
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
 
     @Enumerated(EnumType.STRING)
     private TaskPriority  priority;
