@@ -1,63 +1,120 @@
 package com.taskmanagement.task_management.service.impl;
 
 import com.taskmanagement.task_management.dto.TaskRequest;
+import com.taskmanagement.task_management.dto.TaskResponse;
 import com.taskmanagement.task_management.entity.Task;
+import com.taskmanagement.task_management.entity.User;
+import com.taskmanagement.task_management.enums.Role;
+import com.taskmanagement.task_management.enums.TaskPriority;
+import com.taskmanagement.task_management.enums.TaskStatus;
+import com.taskmanagement.task_management.exception.ResourceNotFoundException;
 import com.taskmanagement.task_management.repository.TaskRepository;
 
-
+import com.taskmanagement.task_management.security.SecurityUtills;
 import com.taskmanagement.task_management.service.TaskService;
+import com.taskmanagement.task_management.specification.TaskSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
+    private final SecurityUtills securityUtils;
 
     @Override
-    public Task createTask(TaskRequest request) {
+    public TaskResponse createTask(TaskRequest request) {
+        User currentUser = securityUtils.getCurrentUser();
 
         Task task = new Task();
-
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
+        task.setStatus(request.getStatus() != null ? request.getStatus() : TaskStatus.TODO);
         task.setPriority(request.getPriority());
         task.setDueDate(request.getDueDate());
         task.setCreatedAt(LocalDateTime.now());
         task.setUpdatedAt(LocalDateTime.now());
+        task.setUser(currentUser);
 
-        return taskRepository.save(task);
+        Task saved = taskRepository.save(task);
+        return TaskResponse.fromEntity(saved);
     }
 
     @Override
-    public Task updateTask(Long id, TaskRequest request) {
-
-        Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+    public TaskResponse updateTask(Long id, TaskRequest request) {
+        Task task = findTaskByIdAndCheckOwnership(id);
 
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
+        task.setStatus(request.getStatus());
         task.setPriority(request.getPriority());
         task.setDueDate(request.getDueDate());
         task.setUpdatedAt(LocalDateTime.now());
 
-        return taskRepository.save(task);
+        Task updated = taskRepository.save(task);
+        return TaskResponse.fromEntity(updated);
     }
 
     @Override
     public void deleteTask(Long id) {
-
-        taskRepository.deleteById(id);
+        Task task = findTaskByIdAndCheckOwnership(id);
+        taskRepository.delete(task);
     }
 
     @Override
-    public Page<Task> getTasks(int page, int size) {
+    public TaskResponse getTaskById(Long id) {
+        Task task = findTaskByIdAndCheckOwnership(id);
+        return TaskResponse.fromEntity(task);
+    }
 
-        return taskRepository.findAll(PageRequest.of(page, size));
+    @Override
+    public Page<TaskResponse> getTasksForCurrentUser(TaskStatus status, TaskPriority priority, Pageable pageable) {
+        User currentUser = securityUtils.getCurrentUser();
+        Specification<Task> spec = TaskSpecification.belongsToUser(currentUser.getId());
+        // Add optional filters
+        if (status != null) {
+            spec = spec.and(TaskSpecification.hasStatus(status));
+        }
+        if (priority != null) {
+            spec = spec.and(TaskSpecification.hasPriority(priority));
+        }
+        return taskRepository.findAll(spec, pageable)
+                .map(TaskResponse::fromEntity);
+    }
+
+    @Override
+    public Page<TaskResponse> getAllTasksForAdmin(TaskStatus status, TaskPriority priority, Pageable pageable) {
+        // Admin sees all tasks, optionally filtered
+        Specification<Task> spec = (root, query, cb) -> cb.conjunction();
+        // Add optional filters
+        if (status != null) {
+            spec = spec.and(TaskSpecification.hasStatus(status));
+        }
+        if (priority != null) {
+            spec = spec.and(TaskSpecification.hasPriority(priority));
+        }
+        return taskRepository.findAll(spec, pageable)
+                .map(TaskResponse::fromEntity);
+    }
+
+    private Task findTaskByIdAndCheckOwnership(Long id) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
+
+        User currentUser = securityUtils.getCurrentUser();
+        // Admin can access any task, user can only access their own
+        if (currentUser.getRole() != Role.ADMIN && !task.getUser().getId().equals(currentUser.getId())) {
+            throw new AccessDeniedException("You do not have permission to access this task");
+        }
+        return task;
     }
 }
