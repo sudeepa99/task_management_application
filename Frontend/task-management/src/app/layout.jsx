@@ -1,4 +1,3 @@
-// src/app/layout.jsx
 import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
