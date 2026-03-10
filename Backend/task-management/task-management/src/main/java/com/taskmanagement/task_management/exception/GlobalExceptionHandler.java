@@ -74,4 +74,14 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    // In your GlobalExceptionHandler / @ControllerAdvice class
+    @ExceptionHandler(DuplicateTaskException.class)
+    public ResponseEntity<Map<String, String>> handleDuplicateTask(DuplicateTaskException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error); // 409
+    }
+
+
 }
