@@ -70,7 +70,7 @@ public class TaskController {
     public ResponseEntity<Page<TaskResponse>> getAllTasksForAdmin(
             @RequestParam(required = false) TaskStatus status,
             @RequestParam(required = false) TaskPriority priority,
-            @PageableDefault(size = 10, sort = "dueDate", direction = Sort.Direction.ASC) Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 10, sort = "dueDate", direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(taskService.getAllTasksForAdmin(status, priority, pageable));
     }
 }

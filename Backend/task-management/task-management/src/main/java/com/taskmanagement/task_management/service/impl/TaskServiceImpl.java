@@ -7,6 +7,7 @@ import com.taskmanagement.task_management.entity.User;
 import com.taskmanagement.task_management.enums.Role;
 import com.taskmanagement.task_management.enums.TaskPriority;
 import com.taskmanagement.task_management.enums.TaskStatus;
+import com.taskmanagement.task_management.exception.DuplicateTaskException;
 import com.taskmanagement.task_management.exception.ResourceNotFoundException;
 import com.taskmanagement.task_management.repository.TaskRepository;
 
@@ -35,14 +36,17 @@ public class TaskServiceImpl implements TaskService {
     public TaskResponse createTask(TaskRequest request) {
         User currentUser = securityUtils.getCurrentUser();
 
+        if (taskRepository.existsByTitleAndUserId(request.getTitle(), currentUser.getId())) {
+            throw new DuplicateTaskException("A task with this title already exists");
+        }
+
+
         Task task = new Task();
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
         task.setStatus(request.getStatus() != null ? request.getStatus() : TaskStatus.TODO);
         task.setPriority(request.getPriority());
         task.setDueDate(request.getDueDate());
-        task.setCreatedAt(LocalDateTime.now());
-        task.setUpdatedAt(LocalDateTime.now());
         task.setUser(currentUser);
 
         Task saved = taskRepository.save(task);
@@ -80,7 +84,6 @@ public class TaskServiceImpl implements TaskService {
     public Page<TaskResponse> getTasksForCurrentUser(TaskStatus status, TaskPriority priority, Pageable pageable) {
         User currentUser = securityUtils.getCurrentUser();
         Specification<Task> spec = TaskSpecification.belongsToUser(currentUser.getId());
-        // Add optional filters
         if (status != null) {
             spec = spec.and(TaskSpecification.hasStatus(status));
         }
@@ -93,9 +96,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Page<TaskResponse> getAllTasksForAdmin(TaskStatus status, TaskPriority priority, Pageable pageable) {
-        // Admin sees all tasks, optionally filtered
         Specification<Task> spec = (root, query, cb) -> cb.conjunction();
-        // Add optional filters
         if (status != null) {
             spec = spec.and(TaskSpecification.hasStatus(status));
         }
@@ -111,7 +112,6 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
 
         User currentUser = securityUtils.getCurrentUser();
-        // Admin can access any task, user can only access their own
         if (currentUser.getRole() != Role.ADMIN && !task.getUser().getId().equals(currentUser.getId())) {
             throw new AccessDeniedException("You do not have permission to access this task");
         }

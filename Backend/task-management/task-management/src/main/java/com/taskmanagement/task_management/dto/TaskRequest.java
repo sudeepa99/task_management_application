@@ -18,7 +18,6 @@ public class TaskRequest {
 
     private String description;
 
-    @NotNull
     private TaskStatus status;
 
     @NotNull
