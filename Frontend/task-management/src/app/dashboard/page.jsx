@@ -129,16 +129,16 @@ export default function DashboardPage() {
   if (authLoading) return null;
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="h-screen flex flex-col overflow-hidden bg-gray-50">
       <Navbar />
 
-      <main className="flex-1 flex flex-col w-full px-10 sm:px-12 lg:px-12 py-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
+      <main className="flex-1 flex flex-col overflow-hidden px-6 sm:px-8 lg:px-12 py-8 gap-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
+          <div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
               My Tasks
             </h1>
-            <p className="text-2xl text-gray-700 mt-1 ">
+            <p className="text-base text-gray-500 mt-1">
               {pagination
                 ? `${pagination.totalElements} task${pagination.totalElements !== 1 ? "s" : ""} total`
                 : "Manage and track all your tasks"}
@@ -146,7 +146,7 @@ export default function DashboardPage() {
           </div>
           <Button
             onClick={() => setCreateOpen(true)}
-            className="px-6! py-3.5! text-2xl! rounded-xl! shrink-0"
+            className="px-6! py-3.5! text-base! rounded-xl! shrink-0"
             size="lg"
           >
             <svg
@@ -166,7 +166,7 @@ export default function DashboardPage() {
           </Button>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-6 py-5 mb-6">
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-6 py-5 shrink-0">
           <TaskFilters
             filters={filters}
             onChange={handleFilterChange}
@@ -174,7 +174,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        <div className="flex-1 flex flex-col bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+        <div className="flex-1 flex flex-col bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden min-h-0">
           <TaskTable
             tasks={tasks}
             loading={loading}

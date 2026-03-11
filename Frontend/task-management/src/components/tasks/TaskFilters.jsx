@@ -47,7 +47,7 @@ export default function TaskFilters({ filters, onChange, onReset }) {
       {hasActiveFilters && (
         <Button
           variant="ghost"
-          size="md"
+          size="sm"
           onClick={onReset}
           className="whitespace-nowrap"
         >

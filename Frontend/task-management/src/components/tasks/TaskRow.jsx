@@ -15,42 +15,42 @@ export default function TaskRow({
       <td className="px-4 py-3">
         <div className="flex flex-col">
           <span
-            className={`text-2xl font-medium ${task.status === "DONE" ? "line-through text-gray-400" : "text-gray-900"}`}
+            className={`text-sm font-medium ${task.status === "DONE" ? "line-through text-gray-400" : "text-gray-900"}`}
           >
             {task.title}
           </span>
           {task.description && (
-            <span className="text-2xl text-gray-500 mt-0.5 truncate max-w-xs">
+            <span className="text-xs text-gray-500 mt-0.5 truncate max-w-xs">
               {task.description}
             </span>
           )}
           {showUser && (
-            <span className="text-2xl text-blue-500 mt-0.5">
+            <span className="text-xs text-blue-500 mt-0.5">
               User #{task.userId}
             </span>
           )}
         </div>
       </td>
 
-      <td className="px-4 py-3 hidden sm:table-cell text-2xl">
+      <td className="px-4 py-3 hidden sm:table-cell">
         <StatusBadge status={task.status} />
       </td>
 
-      <td className="px-4 py-3 hidden md:table-cell text-2xl">
+      <td className="px-4 py-3 hidden md:table-cell">
         <PriorityBadge priority={task.priority} />
       </td>
 
-      <td className="px-4 py-3 hidden lg:table-cell ">
+      <td className="px-4 py-3 hidden lg:table-cell">
         <span
-          className={`text-2xl ${overdue ? "text-red-500 font-medium" : "text-gray-600"}`}
+          className={`text-sm ${overdue ? "text-red-500 font-medium" : "text-gray-600"}`}
         >
           {overdue && "⚠ "}
           {formatDate(task.dueDate)}
         </span>
       </td>
 
-      <td className="px-4 py-3 text-2xl">
-        <div className="flex items-center gap-3 justify-end">
+      <td className="px-4 py-3">
+        <div className="flex items-center gap-1 justify-end">
           {task.status !== "DONE" && onMarkDone && (
             <button
               onClick={() => onMarkDone(task)}
@@ -58,7 +58,7 @@ export default function TaskRow({
               className="p-1.5 text-emerald-500 hover:bg-emerald-50 rounded-lg transition-colors"
             >
               <svg
-                className="w-8 h-8"
+                className="w-4 h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -79,7 +79,7 @@ export default function TaskRow({
               className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
             >
               <svg
-                className="w-8 h-8"
+                className="w-4 h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -100,7 +100,7 @@ export default function TaskRow({
               className="p-1.5 text-red-400 hover:bg-red-50 rounded-lg transition-colors"
             >
               <svg
-                className="w-8 h-8"
+                className="w-4 h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

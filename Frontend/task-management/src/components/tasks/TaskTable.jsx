@@ -26,74 +26,82 @@ export default function TaskTable({
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white">
-        <table className="w-full text-left">
-          <thead>
-            <tr className="bg-gray-50 border-b border-gray-200">
-              <th className="px-4 py-3 text-2xl font-semibold text-gray-500 uppercase tracking-wide">
-                Task
-              </th>
-              <th className="px-4 py-3 text-2xl font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">
-                Status
-              </th>
-              <th className="px-4 py-3 text-2xl font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">
-                Priority
-              </th>
-              <th className="px-4 py-3 text-2xl font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell">
-                Due Date
-              </th>
-              <th className="px-4 py-3 text-xl font-semibold text-gray-500 uppercase tracking-wide text-right">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {tasks.map((task) => (
-              <TaskRow
-                key={task.id}
-                task={task}
-                onEdit={onEdit}
-                onDelete={onDelete}
-                onMarkDone={onMarkDone}
-                showUser={showUser}
-              />
-            ))}
-          </tbody>
-        </table>
+    <div className="flex flex-col h-full min-h-0 gap-4">
+      <div className="flex-1 min-h-0 flex flex-col bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+        <div className="flex-1 min-h-0 overflow-x-auto flex flex-col">
+          <table className="w-full text-left table-fixed">
+            <thead className="sticky top-0 z-10">
+              <tr className="bg-gray-50 border-b border-gray-200">
+                <th className="px-5 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wide w-[35%]">
+                  Task
+                </th>
+                {showUser && (
+                  <th className="px-5 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell w-[18%]">
+                    User
+                  </th>
+                )}
+                <th className="px-5 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell w-[14%]">
+                  Status
+                </th>
+                <th className="px-5 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell w-[13%]">
+                  Priority
+                </th>
+                <th className="px-5 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell w-[13%]">
+                  Due Date
+                </th>
+                <th className="px-5 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wide text-right w-[12%]">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+
+            <tbody className="divide-y divide-gray-100 overflow-y-auto">
+              {tasks.map((task) => (
+                <TaskRow
+                  key={task.id}
+                  task={task}
+                  onEdit={onEdit}
+                  onDelete={onDelete}
+                  onMarkDone={onMarkDone}
+                  showUser={showUser}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {pagination && pagination.totalPages > 1 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-2xl text-gray-600">
-          <span>
-            Showing {pagination.number * pagination.size + 1}–{" "}
+        <div className="shrink-0 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-600 bg-white border border-gray-200 rounded-2xl shadow-sm px-6 py-4">
+          <span className="font-medium">
+            Showing {pagination.number * pagination.size + 1}–
             {Math.min(
               (pagination.number + 1) * pagination.size,
               pagination.totalElements,
             )}{" "}
             of {pagination.totalElements} tasks
           </span>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Button
-              className="text-2xl p-2"
               variant="secondary"
-              size="2xl"
+              size="sm"
               disabled={pagination.first}
               onClick={() => onPageChange(pagination.number - 1)}
+              className="rounded-xl!"
             >
-              Prev
+              ← Prev
             </Button>
-            <span className="px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg font-medium text-2xl">
+            <span className="px-4 py-1.5 bg-blue-50 text-blue-700 rounded-xl font-semibold text-xs border border-blue-100">
               {pagination.number + 1} / {pagination.totalPages}
             </span>
             <Button
-              className="text-2xl p-2"
               variant="secondary"
-              size="2xl"
+              size="sm"
               disabled={pagination.last}
               onClick={() => onPageChange(pagination.number + 1)}
+              className="rounded-xl!"
             >
-              Next
+              Next →
             </Button>
           </div>
         </div>

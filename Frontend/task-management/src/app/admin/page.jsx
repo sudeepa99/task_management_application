@@ -62,44 +62,63 @@ export default function AdminPage() {
   if (authLoading) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="h-screen flex flex-col overflow-hidden bg-gray-50">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div className="shrink-0 w-full px-6 sm:px-8 lg:px-12 pt-8 pb-4 bg-gray-50">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-6">
           <div>
-            <div className="flex items-center gap-2 mb-0.5">
-              <h1 className="text-2xl font-bold text-gray-900">All Tasks</h1>
-              <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full">
+            <div className="flex items-center gap-3 mb-1.5">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                All Tasks
+              </h1>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-700 text-sm font-semibold rounded-full border border-amber-200">
+                <svg
+                  className="w-3.5 h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  />
+                </svg>
                 Admin View
               </span>
             </div>
-            <p className="text-sm text-gray-500">
+            <p className="text-base text-gray-500">
               {pagination
-                ? `${pagination.totalElements} total tasks across all users`
-                : ""}
+                ? `${pagination.totalElements} total task${pagination.totalElements !== 1 ? "s" : ""} across all users`
+                : "Monitor and manage tasks across all users"}
             </p>
           </div>
 
           {pagination && (
-            <div className="flex items-center gap-3">
-              <div className="bg-white border border-gray-200 rounded-lg px-4 py-2 text-center">
-                <p className="text-lg font-bold text-gray-900">
+            <div className="flex items-center gap-4 shrink-0">
+              <div className="bg-white border border-gray-200 rounded-2xl px-6 py-4 text-center shadow-sm min-w-25">
+                <p className="text-3xl font-extrabold text-blue-600">
                   {pagination.totalElements}
                 </p>
-                <p className="text-xs text-gray-500">Total Tasks</p>
+                <p className="text-sm text-gray-500 mt-0.5 font-medium">
+                  Total Tasks
+                </p>
               </div>
-              <div className="bg-white border border-gray-200 rounded-lg px-4 py-2 text-center">
-                <p className="text-lg font-bold text-gray-900">
+              <div className="bg-white border border-gray-200 rounded-2xl px-6 py-4 text-center shadow-sm min-w-25">
+                <p className="text-3xl font-extrabold text-indigo-600">
                   {pagination.totalPages}
                 </p>
-                <p className="text-xs text-gray-500">Pages</p>
+                <p className="text-sm text-gray-500 mt-0.5 font-medium">
+                  Pages
+                </p>
               </div>
             </div>
           )}
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-4 mb-5">
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-6 py-5">
           <TaskFilters
             filters={filters}
             onChange={handleFilterChange}
@@ -109,7 +128,9 @@ export default function AdminPage() {
             }}
           />
         </div>
+      </div>
 
+      <div className="flex-1 overflow-hidden px-6 sm:px-8 lg:px-12 pb-6 flex flex-col min-h-0">
         <TaskTable
           tasks={tasks}
           loading={loading}
@@ -117,7 +138,7 @@ export default function AdminPage() {
           pagination={pagination}
           onPageChange={setPage}
         />
-      </main>
+      </div>
     </div>
   );
 }

@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
             position="top-right"
             toastOptions={{
               duration: 3000,
-              style: { fontSize: "24px", borderRadius: "10px" },
+              style: { fontSize: "20px", borderRadius: "10px" },
             }}
           />
         </AuthProvider>
