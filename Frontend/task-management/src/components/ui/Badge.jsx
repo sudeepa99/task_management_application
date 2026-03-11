@@ -1,4 +1,4 @@
-import { STATUS_STYLES, STATUS_LABELS, PRIORITY_STYLES } from "@/lib/utils";
+import { PRIORITY_STYLES, STATUS_LABELS, STATUS_STYLES } from "@/lib/Utils";
 
 export function StatusBadge({ status }) {
   return (
