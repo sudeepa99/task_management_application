@@ -6,7 +6,7 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => authService.getCurrentUser());
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(false);
 
   const login = async (email, password) => {
     const data = await authService.login(email, password);

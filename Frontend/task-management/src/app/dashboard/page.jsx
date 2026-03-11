@@ -129,22 +129,29 @@ export default function DashboardPage() {
   if (authLoading) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <main className="flex-1 flex flex-col w-full px-10 sm:px-12 lg:px-12 py-8">
+        {/* Page Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">My Tasks</h1>
-            <p className="text-sm text-gray-500 mt-0.5">
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
+              My Tasks
+            </h1>
+            <p className="text-xl text-gray-500 mt-1 ">
               {pagination
                 ? `${pagination.totalElements} task${pagination.totalElements !== 1 ? "s" : ""} total`
-                : ""}
+                : "Manage and track all your tasks"}
             </p>
           </div>
-          <Button onClick={() => setCreateOpen(true)}>
+          <Button
+            onClick={() => setCreateOpen(true)}
+            className="px-6! py-3.5! text-2xl! rounded-xl! shrink-0"
+            size="lg"
+          >
             <svg
-              className="w-4 h-4"
+              className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -160,7 +167,8 @@ export default function DashboardPage() {
           </Button>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-4 mb-5">
+        {/* Filters */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-6 py-5 mb-6">
           <TaskFilters
             filters={filters}
             onChange={handleFilterChange}
@@ -168,15 +176,18 @@ export default function DashboardPage() {
           />
         </div>
 
-        <TaskTable
-          tasks={tasks}
-          loading={loading}
-          onEdit={setEditTask}
-          onDelete={setDeleteTask}
-          onMarkDone={handleMarkDone}
-          pagination={pagination}
-          onPageChange={setPage}
-        />
+        {/* Table — grows to fill remaining height */}
+        <div className="flex-1 flex flex-col bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+          <TaskTable
+            tasks={tasks}
+            loading={loading}
+            onEdit={setEditTask}
+            onDelete={setDeleteTask}
+            onMarkDone={handleMarkDone}
+            pagination={pagination}
+            onPageChange={setPage}
+          />
+        </div>
       </main>
 
       <Modal

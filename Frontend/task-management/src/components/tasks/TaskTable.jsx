@@ -31,19 +31,19 @@ export default function TaskTable({
         <table className="w-full text-left">
           <thead>
             <tr className="bg-gray-50 border-b border-gray-200">
-              <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th className="px-4 py-3 text-2xl font-semibold text-gray-500 uppercase tracking-wide">
                 Task
               </th>
-              <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">
+              <th className="px-4 py-3 text-2xl font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">
                 Status
               </th>
-              <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">
+              <th className="px-4 py-3 text-2xl font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">
                 Priority
               </th>
-              <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell">
+              <th className="px-4 py-3 text-2xl font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell">
                 Due Date
               </th>
-              <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide text-right">
+              <th className="px-4 py-3 text-xl font-semibold text-gray-500 uppercase tracking-wide text-right">
                 Actions
               </th>
             </tr>
@@ -64,19 +64,19 @@ export default function TaskTable({
       </div>
 
       {pagination && pagination.totalPages > 1 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-600">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-lg text-gray-600">
           <span>
             Showing {pagination.number * pagination.size + 1}–
             {Math.min(
               (pagination.number + 1) * pagination.size,
               pagination.totalElements,
-            )}{" "}
+            )}
             of {pagination.totalElements} tasks
           </span>
           <div className="flex items-center gap-2">
             <Button
               variant="secondary"
-              size="sm"
+              size="lg"
               disabled={pagination.first}
               onClick={() => onPageChange(pagination.number - 1)}
             >
@@ -87,7 +87,7 @@ export default function TaskTable({
             </span>
             <Button
               variant="secondary"
-              size="sm"
+              size="lg"
               disabled={pagination.last}
               onClick={() => onPageChange(pagination.number + 1)}
             >
