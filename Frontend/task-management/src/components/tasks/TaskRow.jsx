@@ -1,6 +1,19 @@
 import { StatusBadge, PriorityBadge } from "@/components/ui/Badge";
 import { formatDate, isOverdue } from "@/lib/Utils";
 
+function formatDateTime(dateStr) {
+  if (!dateStr) return "—";
+  const d = new Date(dateStr);
+  return d.toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
+
 export default function TaskRow({
   task,
   onEdit,
@@ -12,10 +25,14 @@ export default function TaskRow({
 
   return (
     <tr className="hover:bg-gray-50 transition-colors">
-      <td className="px-4 py-3">
+      <td className="px-5 py-4">
         <div className="flex flex-col">
           <span
-            className={`text-sm font-medium ${task.status === "DONE" ? "line-through text-gray-400" : "text-gray-900"}`}
+            className={`text-sm font-semibold ${
+              task.status === "DONE"
+                ? "line-through text-gray-400"
+                : "text-gray-900"
+            }`}
           >
             {task.title}
           </span>
@@ -24,98 +41,126 @@ export default function TaskRow({
               {task.description}
             </span>
           )}
-          {showUser && (
-            <span className="text-xs text-blue-500 mt-0.5">
-              User #{task.userId}
-            </span>
-          )}
         </div>
       </td>
 
-      <td className="px-4 py-3 hidden sm:table-cell">
+      {showUser && (
+        <td className="px-5 py-4 hidden md:table-cell">
+          <span className="text-xs text-blue-500 font-medium">
+            User #{task.userId}
+          </span>
+        </td>
+      )}
+
+      <td className="px-5 py-4 hidden sm:table-cell">
         <StatusBadge status={task.status} />
       </td>
 
-      <td className="px-4 py-3 hidden md:table-cell">
+      <td className="px-5 py-4 hidden md:table-cell">
         <PriorityBadge priority={task.priority} />
       </td>
 
-      <td className="px-4 py-3 hidden lg:table-cell">
+      <td className="px-5 py-4 hidden lg:table-cell">
         <span
-          className={`text-sm ${overdue ? "text-red-500 font-medium" : "text-gray-600"}`}
+          className={`text-sm ${
+            overdue ? "text-red-500 font-medium" : "text-gray-600"
+          }`}
         >
           {overdue && "⚠ "}
           {formatDate(task.dueDate)}
         </span>
       </td>
 
-      <td className="px-4 py-3">
-        <div className="flex items-center gap-1 justify-end">
-          {task.status !== "DONE" && onMarkDone && (
-            <button
-              onClick={() => onMarkDone(task)}
-              title="Mark as done"
-              className="p-1.5 text-emerald-500 hover:bg-emerald-50 rounded-lg transition-colors"
+      {showUser && (
+        <>
+          <td className="px-5 py-4 hidden xl:table-cell">
+            <span className="text-xs text-gray-500">
+              {formatDateTime(task.createdAt)}
+            </span>
+          </td>
+          <td className="px-5 py-4 hidden xl:table-cell">
+            <span
+              className={`text-xs ${
+                task.createdAt !== task.updatedAt
+                  ? "text-indigo-500 font-medium"
+                  : "text-gray-500"
+              }`}
             >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              {formatDateTime(task.updatedAt)}
+            </span>
+          </td>
+        </>
+      )}
+
+      {!showUser && (
+        <td className="px-5 py-4">
+          <div className="flex items-center gap-1 justify-end">
+            {task.status !== "DONE" && onMarkDone && (
+              <button
+                onClick={() => onMarkDone(task)}
+                title="Mark as done"
+                className="p-1.5 text-emerald-500 hover:bg-emerald-50 rounded-lg transition-colors"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </button>
-          )}
-          {onEdit && (
-            <button
-              onClick={() => onEdit(task)}
-              title="Edit task"
-              className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
-            >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </button>
+            )}
+            {onEdit && (
+              <button
+                onClick={() => onEdit(task)}
+                title="Edit task"
+                className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                />
-              </svg>
-            </button>
-          )}
-          {onDelete && (
-            <button
-              onClick={() => onDelete(task)}
-              title="Delete task"
-              className="p-1.5 text-red-400 hover:bg-red-50 rounded-lg transition-colors"
-            >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+              </button>
+            )}
+            {onDelete && (
+              <button
+                onClick={() => onDelete(task)}
+                title="Delete task"
+                className="p-1.5 text-red-400 hover:bg-red-50 rounded-lg transition-colors"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
-            </button>
-          )}
-        </div>
-      </td>
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
+        </td>
+      )}
     </tr>
   );
 }
