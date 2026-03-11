@@ -133,24 +133,20 @@ export default function DashboardPage() {
       <Navbar />
 
       <main className="flex-1 flex flex-col overflow-hidden px-6 sm:px-8 lg:px-12 py-8 gap-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+            <h1 className="text-2xl sm:text-4xl font-bold text-gray-900">
               My Tasks
             </h1>
-            <p className="text-base text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 mt-0.5">
               {pagination
                 ? `${pagination.totalElements} task${pagination.totalElements !== 1 ? "s" : ""} total`
-                : "Manage and track all your tasks"}
+                : ""}
             </p>
           </div>
-          <Button
-            onClick={() => setCreateOpen(true)}
-            className="px-6! py-3.5! text-base! rounded-xl! shrink-0"
-            size="lg"
-          >
+          <Button onClick={() => setCreateOpen(true)}>
             <svg
-              className="w-5 h-5"
+              className="w-4 h-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -166,7 +162,7 @@ export default function DashboardPage() {
           </Button>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-6 py-5 shrink-0">
+        <div className="bg-white rounded-xl border border-gray-200 p-4 mb-5">
           <TaskFilters
             filters={filters}
             onChange={handleFilterChange}
@@ -174,17 +170,15 @@ export default function DashboardPage() {
           />
         </div>
 
-        <div className="flex-1 flex flex-col bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden min-h-0">
-          <TaskTable
-            tasks={tasks}
-            loading={loading}
-            onEdit={setEditTask}
-            onDelete={setDeleteTask}
-            onMarkDone={handleMarkDone}
-            pagination={pagination}
-            onPageChange={setPage}
-          />
-        </div>
+        <TaskTable
+          tasks={tasks}
+          loading={loading}
+          onEdit={setEditTask}
+          onDelete={setDeleteTask}
+          onMarkDone={handleMarkDone}
+          pagination={pagination}
+          onPageChange={setPage}
+        />
       </main>
 
       <Modal

@@ -69,7 +69,7 @@ export default function AdminPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-6">
           <div>
             <div className="flex items-center gap-3 mb-1.5">
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+              <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 tracking-tight">
                 All Tasks
               </h1>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-700 text-sm font-semibold rounded-full border border-amber-200">
