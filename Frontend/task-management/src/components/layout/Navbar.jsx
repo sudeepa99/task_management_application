@@ -102,15 +102,15 @@ export default function Navbar() {
         {menuOpen && (
           <div className="sm:hidden border-t border-gray-100 py-4 space-y-3">
             <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3">
-              <div className="w-9 h-9 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
+              <div className="w-9 h-9 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xl font-bold shrink-0">
                 {user?.email?.[0]?.toUpperCase() ?? "U"}
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-sm font-medium text-gray-700 truncate">
+                <span className="text-xl font-medium text-gray-700 truncate">
                   {user?.email}
                 </span>
                 {user?.role === "ADMIN" && (
-                  <span className="text-xs font-semibold text-amber-600 mt-0.5">
+                  <span className="text-xl font-semibold text-amber-600 mt-0.5">
                     Administrator
                   </span>
                 )}

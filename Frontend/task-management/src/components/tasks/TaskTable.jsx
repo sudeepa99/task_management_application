@@ -66,11 +66,11 @@ export default function TaskTable({
       {pagination && pagination.totalPages > 1 && (
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-2xl text-gray-600">
           <span>
-            Showing {pagination.number * pagination.size + 1}–
+            Showing {pagination.number * pagination.size + 1}–{" "}
             {Math.min(
               (pagination.number + 1) * pagination.size,
               pagination.totalElements,
-            )}
+            )}{" "}
             of {pagination.totalElements} tasks
           </span>
           <div className="flex items-center gap-3">

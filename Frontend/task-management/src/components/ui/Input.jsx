@@ -9,7 +9,7 @@ export default function Input({
   return (
     <div className="flex flex-col gap-2">
       {label && (
-        <label className="text-base font-semibold text-gray-700">
+        <label className="text-xl font-semibold text-gray-700">
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>
