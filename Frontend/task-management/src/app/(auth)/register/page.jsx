@@ -7,6 +7,7 @@ import { authService } from "@/services/authService";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { getErrorMessage } from "@/lib/Utils";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -18,6 +19,8 @@ export default function RegisterPage() {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const validate = () => {
     const newErrors = {};
@@ -104,29 +107,109 @@ export default function RegisterPage() {
               required
               autoComplete="email"
             />
-            <div className="grid grid-cols-2 gap-3">
-              <Input
-                label="Password"
-                name="password"
-                type="password"
-                value={form.password}
-                onChange={handleChange}
-                placeholder="••••••••"
-                error={errors.password}
-                required
-                autoComplete="new-password"
-              />
-              <Input
-                label="Confirm Password"
-                name="confirmPassword"
-                type="password"
-                value={form.confirmPassword}
-                onChange={handleChange}
-                placeholder="••••••••"
-                error={errors.confirmPassword}
-                required
-                autoComplete="new-password"
-              />
+            <div className="flex flex-col gap-2">
+              <label className="text-base font-semibold text-gray-700">
+                Password <span className="text-red-500 ml-0.5">*</span>
+              </label>
+              <div className="relative">
+                <input
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  value={form.password}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                  className={`w-full px-3 py-2 text-sm rounded-lg border bg-white text-gray-900 placeholder:text-gray-400 transition-all duration-150  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-50 disabled:cursor-not-allowed border-gray-300 ${
+                    errors.password
+                      ? "border-red-400 bg-red-50 focus:ring-red-100 focus:border-red-500"
+                      : "border-gray-200"
+                  } `}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  tabIndex={-1}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-500 transition-colors focus:outline-none "
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="text-sm font-medium text-red-500 flex items-center gap-1.5">
+                  <svg
+                    className="w-4 h-4 shrink-0"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  {errors.password}
+                </p>
+              )}
+            </div>
+
+            {/* Confirm Password */}
+            <div className="flex flex-col gap-2">
+              <label className="text-base font-semibold text-gray-700">
+                Confirm Password <span className="text-red-500 ml-0.5">*</span>
+              </label>
+              <div className="relative">
+                <input
+                  name="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={form.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                  className={`w-full px-3 py-2 text-sm rounded-lg border bg-white text-gray-900 placeholder:text-gray-400 transition-all duration-150  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-50 disabled:cursor-not-allowed border-gray-300 ${
+                    errors.password
+                      ? "border-red-400 bg-red-50 focus:ring-red-100 focus:border-red-500"
+                      : "border-gray-200"
+                  } `}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  tabIndex={-1}
+                  aria-label={
+                    showConfirmPassword
+                      ? "Hide confirm password"
+                      : "Show confirm password"
+                  }
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-500 transition-colors focus:outline-none"
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
+              {errors.confirmPassword && (
+                <p className="text-sm font-medium text-red-500 flex items-center gap-1.5">
+                  <svg
+                    className="w-4 h-4 shrink-0"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  {errors.confirmPassword}
+                </p>
+              )}
             </div>
             <Button
               type="submit"
