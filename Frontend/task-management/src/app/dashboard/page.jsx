@@ -133,13 +133,12 @@ export default function DashboardPage() {
       <Navbar />
 
       <main className="flex-1 flex flex-col w-full px-10 sm:px-12 lg:px-12 py-8">
-        {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-          <div>
+          <div className="flex flex-col gap-2">
             <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
               My Tasks
             </h1>
-            <p className="text-xl text-gray-500 mt-1 ">
+            <p className="text-2xl text-gray-700 mt-1 ">
               {pagination
                 ? `${pagination.totalElements} task${pagination.totalElements !== 1 ? "s" : ""} total`
                 : "Manage and track all your tasks"}
@@ -167,7 +166,6 @@ export default function DashboardPage() {
           </Button>
         </div>
 
-        {/* Filters */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-6 py-5 mb-6">
           <TaskFilters
             filters={filters}
@@ -176,7 +174,6 @@ export default function DashboardPage() {
           />
         </div>
 
-        {/* Table — grows to fill remaining height */}
         <div className="flex-1 flex flex-col bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
           <TaskTable
             tasks={tasks}
