@@ -64,7 +64,7 @@ export default function TaskTable({
       </div>
 
       {pagination && pagination.totalPages > 1 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-lg text-gray-600">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-2xl text-gray-600">
           <span>
             Showing {pagination.number * pagination.size + 1}–
             {Math.min(
@@ -73,25 +73,27 @@ export default function TaskTable({
             )}
             of {pagination.totalElements} tasks
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Button
+              className="text-2xl p-2"
               variant="secondary"
-              size="lg"
+              size="2xl"
               disabled={pagination.first}
               onClick={() => onPageChange(pagination.number - 1)}
             >
-              ← Prev
+              Prev
             </Button>
-            <span className="px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg font-medium text-xs">
+            <span className="px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg font-medium text-2xl">
               {pagination.number + 1} / {pagination.totalPages}
             </span>
             <Button
+              className="text-2xl p-2"
               variant="secondary"
-              size="lg"
+              size="2xl"
               disabled={pagination.last}
               onClick={() => onPageChange(pagination.number + 1)}
             >
-              Next →
+              Next
             </Button>
           </div>
         </div>
