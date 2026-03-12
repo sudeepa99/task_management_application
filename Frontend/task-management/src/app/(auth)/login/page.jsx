@@ -75,7 +75,7 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
             <Input
               label="Email Address"
               name="email"
@@ -137,6 +137,14 @@ export default function LoginPage() {
                   {errors.password}
                 </p>
               )}
+            </div>
+            <div className="flex justify-end -mt-2">
+              <button
+                type="button"
+                className="text-sm text-red-500 hover:text-red-700 font-medium hover:underline underline-offset-2 transition-colors"
+              >
+                Forgot password?
+              </button>
             </div>
             <Button
               type="submit"
