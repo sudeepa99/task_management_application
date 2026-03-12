@@ -27,7 +27,10 @@ export default function LoginPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "email" ? value.trim() : value,
+    }));
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
