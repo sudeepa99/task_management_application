@@ -1,5 +1,7 @@
-import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "react-hot-toast";
+
+import { AuthProvider } from "@/context/AuthContext";
+
 import "./globals.css";
 
 export const metadata = {

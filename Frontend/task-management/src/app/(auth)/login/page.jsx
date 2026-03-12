@@ -3,11 +3,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { Eye, EyeOff } from "lucide-react";
+
 import { useAuth } from "@/context/AuthContext";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { getErrorMessage } from "@/lib/Utils";
-import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -27,7 +28,10 @@ export default function LoginPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "email" ? value.trim() : value,
+    }));
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
@@ -71,7 +75,7 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
             <Input
               label="Email Address"
               name="email"
@@ -93,6 +97,7 @@ export default function LoginPage() {
                   name="password"
                   type={showPassword ? "text" : "password"}
                   value={form.password}
+                  disabled={loading}
                   onChange={handleChange}
                   placeholder="••••••••"
                   autoComplete="current-password"
@@ -132,6 +137,14 @@ export default function LoginPage() {
                   {errors.password}
                 </p>
               )}
+            </div>
+            <div className="flex justify-end -mt-2">
+              <button
+                type="button"
+                className="text-sm text-red-500 hover:text-red-700 font-medium hover:underline underline-offset-2 transition-colors"
+              >
+                Forgot password?
+              </button>
             </div>
             <Button
               type="submit"

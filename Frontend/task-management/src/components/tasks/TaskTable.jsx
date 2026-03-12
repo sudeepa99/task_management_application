@@ -1,7 +1,8 @@
-import TaskRow from "./TaskRow";
 import Spinner from "@/components/ui/Spinner";
 import EmptyState from "@/components/ui/EmptyState";
 import Button from "@/components/ui/Button";
+
+import TaskRow from "./TaskRow";
 
 export default function TaskTable({
   tasks = [],

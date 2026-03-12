@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+
 import { useAuth } from "@/context/AuthContext";
 import { taskService } from "@/services/taskService";
 import Navbar from "@/components/layout/Navbar";
@@ -75,6 +76,7 @@ export default function DashboardPage() {
   };
 
   const handleCreate = async (data) => {
+    if (formLoading) return;
     setFormLoading(true);
     try {
       await taskService.createTask(data);
@@ -89,6 +91,7 @@ export default function DashboardPage() {
   };
 
   const handleUpdate = async (data) => {
+    if (!editTask) return;
     setFormLoading(true);
     try {
       await taskService.updateTask(editTask.id, data);

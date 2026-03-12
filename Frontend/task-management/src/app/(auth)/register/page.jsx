@@ -3,11 +3,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { Eye, EyeOff } from "lucide-react";
+
 import { authService } from "@/services/authService";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { getErrorMessage } from "@/lib/Utils";
-import { Eye, EyeOff } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -41,7 +42,10 @@ export default function RegisterPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "email" ? value.trim() : value,
+    }));
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
@@ -85,7 +89,7 @@ export default function RegisterPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4" noValidate>
             <Input
               label="Full Name"
               name="name"
@@ -117,6 +121,7 @@ export default function RegisterPage() {
                   type={showPassword ? "text" : "password"}
                   value={form.password}
                   onChange={handleChange}
+                  disabled={loading}
                   placeholder="••••••••"
                   autoComplete="new-password"
                   className={`w-full px-3 py-2 text-sm rounded-lg border bg-white text-gray-900 placeholder:text-gray-400 transition-all duration-150  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-50 disabled:cursor-not-allowed border-gray-300 ${
@@ -157,7 +162,6 @@ export default function RegisterPage() {
               )}
             </div>
 
-            {/* Confirm Password */}
             <div className="flex flex-col gap-2">
               <label className="text-base font-semibold text-gray-700">
                 Confirm Password <span className="text-red-500 ml-0.5">*</span>
@@ -167,11 +171,12 @@ export default function RegisterPage() {
                   name="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
                   value={form.confirmPassword}
+                  disabled={loading}
                   onChange={handleChange}
                   placeholder="••••••••"
                   autoComplete="new-password"
                   className={`w-full px-3 py-2 text-sm rounded-lg border bg-white text-gray-900 placeholder:text-gray-400 transition-all duration-150  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-50 disabled:cursor-not-allowed border-gray-300 ${
-                    errors.password
+                    errors.confirmPassword
                       ? "border-red-400 bg-red-50 focus:ring-red-100 focus:border-red-500"
                       : "border-gray-200"
                   } `}
