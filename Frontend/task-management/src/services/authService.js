@@ -1,5 +1,6 @@
-import axiosInstance from "@/lib/axios";
 import Cookies from "js-cookie";
+
+import axiosInstance from "@/lib/axios";
 
 export const authService = {
   login: async (email, password) => {

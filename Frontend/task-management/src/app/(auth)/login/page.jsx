@@ -3,11 +3,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { Eye, EyeOff } from "lucide-react";
+
 import { useAuth } from "@/context/AuthContext";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { getErrorMessage } from "@/lib/Utils";
-import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
