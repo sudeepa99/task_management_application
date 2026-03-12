@@ -75,6 +75,7 @@ export default function DashboardPage() {
   };
 
   const handleCreate = async (data) => {
+    if (formLoading) return;
     setFormLoading(true);
     try {
       await taskService.createTask(data);
