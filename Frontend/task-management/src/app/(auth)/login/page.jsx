@@ -93,6 +93,7 @@ export default function LoginPage() {
                   name="password"
                   type={showPassword ? "text" : "password"}
                   value={form.password}
+                  disabled={loading}
                   onChange={handleChange}
                   placeholder="••••••••"
                   autoComplete="current-password"
