@@ -90,6 +90,7 @@ export default function DashboardPage() {
   };
 
   const handleUpdate = async (data) => {
+    if (!editTask) return;
     setFormLoading(true);
     try {
       await taskService.updateTask(editTask.id, data);
