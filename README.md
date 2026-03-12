@@ -74,6 +74,9 @@ Steps to Run
 3. Run the application:
    mvn spring-boot:run
 
+4. Open Swagger UI:
+   http://localhost:8080/swagger-ui/index.html
+
 API Endpoints
 
 ![API Endpoints](image.png)
@@ -117,3 +120,7 @@ TaskFlow intentionally does not provide any interface for registering or self-as
 Allowing users to select or request an admin role through the UI would introduce a critical privilege escalation vulnerability — any user could grant themselves elevated access, bypassing all access control entirely.
 
 Instead, the `ADMIN` role is assigned exclusively through direct database access by a trusted system administrator. This ensures that elevated privileges can only be granted by someone who already has legitimate, controlled access to the underlying infrastructure.
+
+## Demo Video
+
+Watch the demo video here: https://drive.google.com/file/d/1XUQKGmCIt-mXkLJn_1xBdDlNJKnk3vyO/view?usp=sharing
